@@ -9,7 +9,7 @@ describe "StaticPages" do
     end
     it 'has the right title' do
       visit '/static_pages/home'
-      expect(page).to have_selector('title', text: " | Home")
+      expect(page).to have_title "RoR Tutorial | Home"
     end
   end
 
@@ -18,9 +18,9 @@ describe "StaticPages" do
       visit 'static_pages/help'
       expect(page).to have_selector('h1', text: 'Help')
     end
-    it 'has the right title' do
+    it "should have the title 'Help'" do
       visit '/static_pages/help'
-      expect(page).to have_selector('title', text: " | Help")
+      expect(page).to have_title "RoR Tutorial | Help"
     end
   end
 
@@ -31,7 +31,7 @@ describe "StaticPages" do
     end
     it 'has the right title' do
       visit '/static_pages/about'
-      expect(page).to have_selector('title', text: " | About")
+      expect(page).to have_title "RoR Tutorial | About Us"
     end
   end
 end
