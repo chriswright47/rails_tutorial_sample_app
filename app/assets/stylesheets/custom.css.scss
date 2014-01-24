@@ -1,4 +1,5 @@
 @import 'bootstrap';
+$grayLight: #999;
 
 /* universal */
 
@@ -43,7 +44,7 @@ h1 {
   font-size: 3em; letter-spacing: -2px; margin-bottom: 30px; text-align: center;
 }
 h2 {
-  font-size: 1.7em; letter-spacing: -1px; margin-bottom: 30px; text-align: center; font-weight: normal; color: #999;
+  font-size: 1.7em; letter-spacing: -1px; margin-bottom: 30px; text-align: center; font-weight: normal; color: $grayLight;
 }
 
 p {
@@ -67,7 +68,7 @@ footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid #eaeaea;
-  color: #999;
+  color: $grayLight;
   a {
     color: #555;
     &:hover {
