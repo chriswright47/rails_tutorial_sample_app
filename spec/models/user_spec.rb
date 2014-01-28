@@ -70,6 +70,15 @@ describe User do
     it { should_not be_valid }
   end
 
+  describe 'when email is mixed case format' do
+    let(:mixed_case_email) { 'foOBAr@Baz.com' }
+    it 'should save as lower case' do
+      @user.email = mixed_case_email
+      @user.save
+      @user.reload.email.should == mixed_case_email.downcase
+    end
+  end
+
   describe 'when email format is invalid' do
     it 'should be invalid' do
       addresses = %w[user@foo,com user_at_foo.org example.user@foo. foo@bar_baz.com foo@bar+baz.com]
