@@ -54,9 +54,12 @@ describe 'User pages' do
     it { should have_title user.name }
   end
 
-  describe 'edit' do
+  describe 'edit', type: :request do
     let(:user) { FactoryGirl.create(:user) }
-    before { visit edit_user_path(user) }
+    before do
+      sign_in user
+      visit edit_user_path(user)
+    end
 
     describe 'page' do
       it { should have_selector('h1', text: 'Update your profile') }
