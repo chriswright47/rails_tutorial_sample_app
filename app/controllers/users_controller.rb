@@ -27,13 +27,12 @@ class UsersController < ApplicationController
   end
 
   def update
-    # this needs to be fixed i think
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = 'Profile successfully updated'
+      sign_in @user
+      flash[:success] = 'Profile updated'
       redirect_to @user
     else
-      # need to make sure errors render in edit view
       render 'edit'
     end
   end
