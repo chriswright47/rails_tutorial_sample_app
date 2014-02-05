@@ -14,9 +14,14 @@ describe 'User pages' do
 
     it { should have_title(full_title'All users') }
     it { should have_selector('h1', text: 'All users') }
-    it 'should list each user' do
-      User.all.each do |local_user|
-        page.should have_selector('li', text: local_user.name)
+
+    describe 'pagination' do
+      it { should have_selector('div.pagination') }
+
+      it 'should list each user' do
+        User.paginate(page: 1).each do |user|
+          page.should have_selector('li', text: user.name)
+        end
       end
     end
   end
