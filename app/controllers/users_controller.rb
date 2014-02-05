@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
+  before_filter :signed_in_user, only: [:edit, :update, :show, :index, :destroy]
+  before_filter :correct_user, only: [:edit, :update]
+  before_filter :admin_user, only: :destroy
+
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page])
   end
 
   def show
@@ -27,25 +31,38 @@ class UsersController < ApplicationController
   end
 
   def update
-    # this needs to be fixed i think
     @user = User.find(params[:id])
     if @user.update_attributes(user_params)
-      flash[:success] = 'Profile successfully updated'
+      sign_in @user
+      flash[:success] = 'Profile updated'
       redirect_to @user
     else
-      # need to make sure errors render in edit view
       render 'edit'
     end
   end
 
   def destroy
-    user = User.find(params[:id])
-    user.destroy
-    redirect_to root_path
+    User.find(params[:id]).destroy
+    flash[:success] = 'User destroyed.'
+    redirect_to users_path
   end
 
   private
-  def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
-  end
+    def user_params
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def signed_in_user
+      store_location
+      redirect_to signin_path, notice: 'Please sign in.' unless signed_in?
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to root_path unless current_user?(@user)
+    end
+
+    def admin_user
+      redirect_to root_path unless current_user.admin?
+    end
 end
