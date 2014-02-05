@@ -4,6 +4,23 @@ describe 'User pages' do
 
   subject { page }
 
+  describe 'index', type: :request do
+    before do
+      sign_in FactoryGirl.create(:user)
+      FactoryGirl.create(:user, name: 'Ben', email: 'ben@example.com')
+      FactoryGirl.create(:user, name: 'Bob', email: 'bob@example.com')
+      visit users_path
+    end
+
+    it { should have_title(full_title'All users') }
+    it { should have_selector('h1', text: 'All users') }
+    it 'should list each user' do
+      User.all.each do |local_user|
+        page.should have_selector('li', text: local_user.name)
+      end
+    end
+  end
+
   describe 'new user page' do
     before { visit new_user_path }
     let(:submit) { 'Create my Account' }
@@ -46,9 +63,12 @@ describe 'User pages' do
     end
   end
 
-  describe 'profile page' do
+  describe 'profile page', type: :request do
     let(:user) { FactoryGirl.create(:user) }
-    before { visit user_path(user) }
+    before do
+      sign_in user
+      visit user_path(user)
+    end
 
     it { should have_selector('h1', text: user.name) }
     it { should have_title user.name }
