@@ -37,6 +37,14 @@ describe User do
     it 'should have the right microposts in the right order' do
       @user.microposts.should == [newer_micropost, older_micropost]
     end
+
+    it 'should destroy associated microposts' do
+      micro_ids = @user.microposts.pluck(:id)
+      @user.destroy
+      micro_ids.each do |id|
+        Micropost.find_by_id(id).should be_nil
+      end
+    end
   end
 
   describe 'with admin attribute set to true' do
