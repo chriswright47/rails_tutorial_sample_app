@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  has_many :microposts
+
   private
 
     def create_remember_token
