@@ -21,7 +21,7 @@ describe User do
   it { should respond_to(:authenticate) }
   it { should respond_to(:microposts) }
 
-  it { should be_valid }
+   it { should be_valid }
   it { should_not be_admin }
 
   describe 'micropost associations' do
